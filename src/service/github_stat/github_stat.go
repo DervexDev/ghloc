@@ -52,31 +52,8 @@ func New(contentProvider ContentProvider) *Service {
 func (s *Service) GetStat(ctx context.Context, user, repo, branch, token string, filter, matcher *string, noLOCProvider bool, tempStorage TempStorage) (*loc_count.StatTree, error) {
 	var locs *[]loc_count.LOCForPath
 
-	// if s.LOCCacher != nil {
-	// 	if !noLOCProvider {
-	// 		cacheLocs, err := s.LOCCacher.GetLOCs(ctx, user, repo, branch)
-	// 		if err != nil {
-	// 			if errors.Is(err, ErrRepoTooLarge) {
-	// 				return nil, err
-	// 			}
-	// 			zerolog.Ctx(ctx).Warn().Err(err).Msg("Failed to get LOCs from cache, will proceed without it")
-	// 		} else {
-	// 			locs = &cacheLocs
-	// 		}
-	// 	} else {
-	// 		zerolog.Ctx(ctx).Info().Msg("Proceeding without LOCs cache - as requested")
-	// 	}
-	// }
-
 	filesForPaths, close, err := s.ContentProvider.GetContent(ctx, user, repo, branch, token, tempStorage)
 	if err != nil {
-		// if errors.Is(err, ErrRepoTooLarge) && s.LOCCacher != nil {
-		// 	err := s.LOCCacher.SetTooLarge(ctx, user, repo, branch)
-		// 	if err != nil {
-		// 		zerolog.Ctx(ctx).Error().Err(err).Msg("Error marking too large repo in the cache")
-		// 	}
-		// }
-
 		return nil, fmt.Errorf("get repo content: %w", err)
 	}
 	defer close()
@@ -101,13 +78,6 @@ func (s *Service) GetStat(ctx context.Context, user, repo, branch, token string,
 	zerolog.Ctx(ctx).Info().
 		Float64("durationSec", time.Since(locCountingStart).Seconds()).
 		Msg("LOCs counted")
-
-	// if s.LOCCacher != nil && !noLOCProvider {
-	// 	err := s.LOCCacher.SetLOCs(ctx, user, repo, branch, *locs)
-	// 	if err != nil {
-	// 		zerolog.Ctx(ctx).Error().Err(err).Msg("Error saving LOCs to the cache")
-	// 	}
-	// }
 
 	treeBuildingStart := time.Now()
 	statTree := loc_count.BuildStatTree(*locs, filter, matcher)

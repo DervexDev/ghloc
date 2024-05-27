@@ -33,21 +33,6 @@ func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	noLOCProvider := false
 	tempStorage := github_stat.TempStorageFile
 
-	// if h.DebugToken != "" {
-	// 	debugTokenInRequest := r.FormValue("debug_token")
-	// 	if debugTokenInRequest == h.DebugToken {
-	// 		if r.Form["no_cache"] != nil {
-	// 			noLOCProvider = true
-	// 		}
-	// 		if r.Form["mem_for_temp"] != nil {
-	// 			tempStorage = github_stat.TempStorageRam
-	// 		}
-	// 	} else if debugTokenInRequest != "" {
-	// 		rest.WriteResponse(w, r, rest.BadRequest{Msg: "Invalid debug token"}, true)
-	// 		return
-	// 	}
-	// }
-
 	var filter *string
 	if filters := r.Form["filter"]; len(filters) >= 1 {
 		filter = &filters[0]
