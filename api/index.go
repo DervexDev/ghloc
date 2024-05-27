@@ -8,6 +8,7 @@ import (
 
 	"github.com/DervexDev/ghloc/src/infrastructure/github_files_provider"
 	"github.com/DervexDev/ghloc/src/server/github_handler"
+	"github.com/DervexDev/ghloc/src/server/rest"
 	"github.com/DervexDev/ghloc/src/service/github_stat"
 	"github.com/caarlos0/env/v9"
 	"github.com/rs/zerolog"
@@ -36,7 +37,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Header.Get("Ghloc-Authorization") != config.AuthToken {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		rest.Unauthorized(w, r)
 		return
 	}
 
