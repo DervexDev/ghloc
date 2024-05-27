@@ -29,9 +29,6 @@ func WriteResponse(w http.ResponseWriter, r *http.Request, v interface{}, pretty
 		} else if errors.Is(err, NotFound) {
 			code = http.StatusNotFound
 			v = errResponse{"Not found"}
-		} else if errors.Is(err, NotAuthorized) {
-			code = http.StatusUnauthorized
-			v = errResponse{"Unauthorized"}
 		} else {
 			setISE(err)
 		}
@@ -49,6 +46,7 @@ func WriteResponse(w http.ResponseWriter, r *http.Request, v interface{}, pretty
 	}
 
 	w.Header().Add("Content-Type", mime.TypeByExtension(".json"))
+	w.Header().Set("Access-Control-Allow-Headers", "Authorization")
 	w.Header().Set("Access-Control-Allow-Origin", "https://github.com")
 	w.WriteHeader(code)
 

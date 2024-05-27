@@ -36,7 +36,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Header.Get("Origin") != "https://github.com" {
-		rest.WriteResponse(w, r, rest.Unauthorized{}, true)
+		rest.Unauthorized(w, r)
 		return
 	}
 
