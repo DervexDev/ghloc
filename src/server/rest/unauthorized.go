@@ -1,10 +1,11 @@
 package rest
 
-import (
-	"net/http"
-)
+import "fmt"
 
-func  Unauthorized(w http.ResponseWriter, r *http.Request)  {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.WriteHeader(http.StatusUnauthorized)
+var NotAuthorized = fmt.Errorf("unauthorized")
+
+type Unauthorized struct {}
+
+func (e Unauthorized) Error() error {
+	return NotAuthorized
 }
