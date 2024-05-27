@@ -4,10 +4,10 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/DervexDev/ghloc/src/server/rest"
+	"github.com/DervexDev/ghloc/src/service/github_stat"
+	"github.com/DervexDev/ghloc/src/service/loc_count"
 	"github.com/go-chi/chi/v5"
-	"github.com/subtle-byte/ghloc/internal/server/rest"
-	"github.com/subtle-byte/ghloc/internal/service/github_stat"
-	"github.com/subtle-byte/ghloc/internal/service/loc_count"
 )
 
 type Service interface {
@@ -16,7 +16,6 @@ type Service interface {
 
 type GetStatHandler struct {
 	Service    Service
-	DebugToken string
 }
 
 func (h *GetStatHandler) RegisterOn(router chi.Router) {
@@ -33,20 +32,21 @@ func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	noLOCProvider := false
 	tempStorage := github_stat.TempStorageFile
-	if h.DebugToken != "" {
-		debugTokenInRequest := r.FormValue("debug_token")
-		if debugTokenInRequest == h.DebugToken {
-			if r.Form["no_cache"] != nil {
-				noLOCProvider = true
-			}
-			if r.Form["mem_for_temp"] != nil {
-				tempStorage = github_stat.TempStorageRam
-			}
-		} else if debugTokenInRequest != "" {
-			rest.WriteResponse(w, r, rest.BadRequest{Msg: "Invalid debug token"}, true)
-			return
-		}
-	}
+
+	// if h.DebugToken != "" {
+	// 	debugTokenInRequest := r.FormValue("debug_token")
+	// 	if debugTokenInRequest == h.DebugToken {
+	// 		if r.Form["no_cache"] != nil {
+	// 			noLOCProvider = true
+	// 		}
+	// 		if r.Form["mem_for_temp"] != nil {
+	// 			tempStorage = github_stat.TempStorageRam
+	// 		}
+	// 	} else if debugTokenInRequest != "" {
+	// 		rest.WriteResponse(w, r, rest.BadRequest{Msg: "Invalid debug token"}, true)
+	// 		return
+	// 	}
+	// }
 
 	var filter *string
 	if filters := r.Form["filter"]; len(filters) >= 1 {

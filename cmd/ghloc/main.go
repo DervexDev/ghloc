@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/DervexDev/ghloc/src/infrastructure/local_files_provider"
+	"github.com/DervexDev/ghloc/src/server/rest"
+	"github.com/DervexDev/ghloc/src/service/loc_count"
 	"github.com/pkg/browser"
-	"github.com/subtle-byte/ghloc/internal/infrastructure/local_files_provider"
-	"github.com/subtle-byte/ghloc/internal/server/rest"
-	"github.com/subtle-byte/ghloc/internal/service/loc_count"
 )
 
 //go:embed server_static

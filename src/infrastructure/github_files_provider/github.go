@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/DervexDev/ghloc/src/server/rest"
+	"github.com/DervexDev/ghloc/src/service/github_stat"
 	"github.com/rs/zerolog"
-	"github.com/subtle-byte/ghloc/internal/server/rest"
-	"github.com/subtle-byte/ghloc/internal/service/github_stat"
 )
 
 type Github struct {

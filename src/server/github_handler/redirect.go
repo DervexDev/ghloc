@@ -6,9 +6,9 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/DervexDev/ghloc/src/server/rest"
+	"github.com/DervexDev/ghloc/src/util"
 	"github.com/go-chi/chi/v5"
-	"github.com/subtle-byte/ghloc/internal/server/rest"
-	"github.com/subtle-byte/ghloc/internal/util"
 )
 
 type RedirectHandler struct {

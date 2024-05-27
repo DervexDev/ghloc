@@ -3,8 +3,8 @@ package rest
 import (
 	"testing"
 
+	"github.com/DervexDev/ghloc/src/service/loc_count"
 	"github.com/stretchr/testify/assert"
-	"github.com/subtle-byte/ghloc/internal/service/loc_count"
 )
 
 func TestSortedStatMarshaling(t *testing.T) {

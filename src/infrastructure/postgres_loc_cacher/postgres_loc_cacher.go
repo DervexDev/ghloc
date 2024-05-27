@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/DervexDev/ghloc/src/service/github_stat"
+	"github.com/DervexDev/ghloc/src/service/loc_count"
 	"github.com/rs/zerolog"
-	"github.com/subtle-byte/ghloc/internal/service/github_stat"
-	"github.com/subtle-byte/ghloc/internal/service/loc_count"
 )
 
 type Postgres struct {

@@ -10,6 +10,10 @@ import (
 
 	// _ "net/http/pprof"
 
+	"github.com/DervexDev/ghloc/src/infrastructure/github_files_provider"
+	"github.com/DervexDev/ghloc/src/infrastructure/postgres_loc_cacher"
+	"github.com/DervexDev/ghloc/src/server/github_handler"
+	github_stat_service "github.com/DervexDev/ghloc/src/service/github_stat"
 	"github.com/caarlos0/env/v9"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -18,10 +22,6 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
-	"github.com/subtle-byte/ghloc/internal/infrastructure/github_files_provider"
-	"github.com/subtle-byte/ghloc/internal/infrastructure/postgres_loc_cacher"
-	"github.com/subtle-byte/ghloc/internal/server/github_handler"
-	github_stat_service "github.com/subtle-byte/ghloc/internal/service/github_stat"
 )
 
 type Config struct {

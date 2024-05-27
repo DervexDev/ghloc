@@ -3,7 +3,7 @@ package github_files_provider
 import (
 	"io"
 
-	"github.com/subtle-byte/ghloc/internal/service/github_stat"
+	"github.com/DervexDev/ghloc/src/service/github_stat"
 )
 
 // It is like io.LimitedReader but returns model.BadRequest when Remaining == 0

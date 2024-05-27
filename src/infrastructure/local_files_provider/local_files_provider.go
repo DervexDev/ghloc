@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/subtle-byte/ghloc/internal/service/github_stat"
+	"github.com/DervexDev/ghloc/src/service/github_stat"
 )
 
 func GetFilesInDir(path string) ([]github_stat.FileForPath, error) {

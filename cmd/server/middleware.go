@@ -7,9 +7,9 @@ import (
 	"runtime/pprof"
 	"time"
 
+	"github.com/DervexDev/ghloc/src/util"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/zerolog"
-	"github.com/subtle-byte/ghloc/internal/util"
 )
 
 func NewDebugMiddleware(debugToken string) func(http.Handler) http.Handler {

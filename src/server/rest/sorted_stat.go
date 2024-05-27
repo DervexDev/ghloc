@@ -5,7 +5,7 @@ import (
 	"io"
 	"sort"
 
-	"github.com/subtle-byte/ghloc/internal/service/loc_count"
+	"github.com/DervexDev/ghloc/src/service/loc_count"
 )
 
 type SortedStat loc_count.StatTree
