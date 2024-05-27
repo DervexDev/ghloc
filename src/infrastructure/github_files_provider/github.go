@@ -53,6 +53,7 @@ func (g *Github) GetContent(ctx context.Context, user, repo, branch, token strin
 	if token != "" {
 		req.Header.Set("Authorization", token)
 	}
+
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, nil, fmt.Errorf("do request: %w", err)
@@ -70,6 +71,7 @@ func (g *Github) GetContent(ctx context.Context, user, repo, branch, token strin
 
 	readerAt := io.ReaderAt(nil)
 	readerLen := 0
+
 	if tempStorage == github_stat.TempStorageFile {
 		tempFile, err := NewTempFile(resp.Body, g.maxZipSizeBytes)
 		if err != nil {
@@ -110,5 +112,6 @@ func (g *Github) GetContent(ctx context.Context, user, repo, branch, token strin
 			Opener: file.Open,
 		})
 	}
+
 	return filesForPaths, closer, nil
 }

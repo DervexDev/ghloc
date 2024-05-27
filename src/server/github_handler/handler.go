@@ -3,11 +3,11 @@ package github_handler
 import (
 	"context"
 	"net/http"
+	"strings"
 
 	"github.com/DervexDev/ghloc/src/server/rest"
 	"github.com/DervexDev/ghloc/src/service/github_stat"
 	"github.com/DervexDev/ghloc/src/service/loc_count"
-	"github.com/go-chi/chi/v5"
 )
 
 type Service interface {
@@ -18,14 +18,18 @@ type GetStatHandler struct {
 	Service    Service
 }
 
-func (h *GetStatHandler) RegisterOn(router chi.Router) {
-	router.Get("/{user}/{repo}/{branch}", h.ServeHTTP)
-}
-
 func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	user := chi.URLParam(r, "user")
-	repo := chi.URLParam(r, "repo")
-	branch := chi.URLParam(r, "branch")
+	path := strings.Split(r.URL.Path, "/")
+
+	if len(path) < 4 {
+		rest.WriteResponse(w, r, rest.BadRequest{Msg: "Invalid path"}, true)
+		return
+	}
+
+	user := path[1]
+	repo := path[2]
+	branch := path[3]
+
 	token := r.Header.Get("Authorization")
 
 	r.ParseForm()
@@ -48,6 +52,7 @@ func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		rest.WriteResponse(w, r, err, true)
 		return
 	}
+
 	w.Header().Add("Cache-Control", "public, max-age=300")
 	rest.WriteResponse(w, r, (*rest.SortedStat)(stat), r.FormValue("pretty") != "false")
 }

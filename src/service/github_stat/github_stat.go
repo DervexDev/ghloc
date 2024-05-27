@@ -74,6 +74,7 @@ func (s *Service) GetStat(ctx context.Context, user, repo, branch, token string,
 			return nil, err
 		}
 	}
+
 	locs = util.Pointer(locCounter.GetLOCsForPaths())
 	zerolog.Ctx(ctx).Info().
 		Float64("durationSec", time.Since(locCountingStart).Seconds()).
