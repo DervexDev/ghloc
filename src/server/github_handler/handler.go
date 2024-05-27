@@ -3,6 +3,7 @@ package github_handler
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/DervexDev/ghloc/src/server/rest"
@@ -16,6 +17,7 @@ type Service interface {
 
 type GetStatHandler struct {
 	Service    Service
+	MaxAge     int
 }
 
 func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -53,6 +55,7 @@ func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Add("Cache-Control", "public, max-age=300")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Cache-Control", "public, max-age=" + strconv.Itoa(h.MaxAge))
 	rest.WriteResponse(w, r, (*rest.SortedStat)(stat), r.FormValue("pretty") != "false")
 }

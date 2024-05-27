@@ -15,6 +15,7 @@ import (
 
 type Config struct {
 	MaxRepoSizeMB   int     `env:"MAX_REPO_SIZE_MB" envDefault:"100"`
+	MaxAge		    int     `env:"MAX_AGE" envDefault:"300"`
 	AuthToken       string  `env:"AUTH_TOKEN,notEmpty"`
 }
  
@@ -42,7 +43,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	github := github_files_provider.New(config.MaxRepoSizeMB)
 	service := github_stat.New(github)
 
-	handler := &github_handler.GetStatHandler{Service: service}
+	handler := &github_handler.GetStatHandler{Service: service, MaxAge: config.MaxAge}
 
 	handler.ServeHTTP(w, r)
 }
