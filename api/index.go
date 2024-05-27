@@ -35,7 +35,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		logger.Fatal().Err(err).Msg("Error parsing config")
 	}
 
-	if r.Header.Get("GhlocAuthorization") != config.AuthToken {
+	if r.Header.Get("Ghloc-Authorization") != config.AuthToken {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}

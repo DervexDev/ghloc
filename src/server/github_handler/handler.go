@@ -56,6 +56,7 @@ func (h GetStatHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Ghloc-Authorization, Authorization")
 	w.Header().Add("Cache-Control", "public, max-age=" + strconv.Itoa(h.MaxAge))
 	rest.WriteResponse(w, r, (*rest.SortedStat)(stat), r.FormValue("pretty") != "false")
 }
