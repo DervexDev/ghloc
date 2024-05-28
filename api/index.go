@@ -17,6 +17,7 @@ import (
 type Config struct {
 	MaxRepoSizeMB   int     `env:"MAX_REPO_SIZE_MB" envDefault:"100"`
 	MaxAge		    int     `env:"MAX_AGE" envDefault:"300"`
+	AuthToken       string  `env:"AUTH_TOKEN,notEmpty"`
 }
  
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -35,8 +36,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		logger.Fatal().Err(err).Msg("Error parsing config")
 	}
 
-	if r.Header.Get("Origin") != "https://github.com" {
-		rest.Unauthorized(w, r)
+	if r.Method == http.MethodOptions {
+		rest.WriteResponse(w, r, nil, false)
+		return
+	}
+
+	if r.Header.Get("Ghloc-Authorization") != config.AuthToken {
+		rest.WriteResponse(w, r, rest.Unauthorized{Msg: "Unauthorized"}, true)
 		return
 	}
 

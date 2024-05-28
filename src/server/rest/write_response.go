@@ -23,7 +23,10 @@ func WriteResponse(w http.ResponseWriter, r *http.Request, v interface{}, pretty
 	}
 
 	if err, ok := v.(error); ok {
-		if badRequest := (BadRequest{}); errors.As(err, &badRequest) {
+		if unauthorized := (Unauthorized{}); errors.As(err, &unauthorized) {
+			code = http.StatusUnauthorized
+			v = errResponse{unauthorized.Msg}
+		} else if badRequest := (BadRequest{}); errors.As(err, &badRequest) {
 			code = http.StatusBadRequest
 			v = errResponse{badRequest.Msg}
 		} else if errors.Is(err, NotFound) {
@@ -46,7 +49,7 @@ func WriteResponse(w http.ResponseWriter, r *http.Request, v interface{}, pretty
 	}
 
 	w.Header().Add("Content-Type", mime.TypeByExtension(".json"))
-	w.Header().Set("Access-Control-Allow-Headers", "Authorization")
+	w.Header().Set("Access-Control-Allow-Headers", "Ghloc-Authorization, Authorization")
 	w.Header().Set("Access-Control-Allow-Origin", "https://github.com")
 	w.WriteHeader(code)
 
